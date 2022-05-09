@@ -9,7 +9,7 @@ import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import productos from './productos.js';
 import carrito from './carrito.js';
-import mensajes, { mensajesMemoria } from './mensajes.js';
+import mensajes, { mensajesMonDB } from './mensajes.js';
 
 const app = express();
 
@@ -75,16 +75,6 @@ app.get('/', (req,res)=>{
 app.get('/api/info', async (req,res)=>{
     logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
     try{
-        console.log({
-            cpus: cpus.length,
-            argsEnt: process.argv.slice(2),
-            nomPlat: process.platform,
-            verNode: process.version,
-            memToRev: JSON.stringify(process.memoryUsage().rss),
-            pathExe: process.execPath,
-            procId: process.pid,
-            carProy: process.cwd()
-        });
         res.render('info',{
             datos:{
                 cpus: cpus.length,
@@ -96,7 +86,7 @@ app.get('/api/info', async (req,res)=>{
                 procId: process.pid,
                 carProy: process.cwd()
             },
-            mensajes: await mensajesMemoria.getAll()
+            mensajes: await mensajesMonDB.getAll()
         });
     } catch (error) {
         loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`)
@@ -131,7 +121,7 @@ app.put('*', (req,res) => {
     logger.warn({error: '-2', descripcion: `ruta ${req.url} metodo ${req.method} no implementada`})
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = args.puerto || 8080;
 
 const server = app.listen(PORT, () => {
    logger.info(`Servidor escuchando en el puerto ${server.address().port}`);

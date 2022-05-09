@@ -1,7 +1,7 @@
 import express from 'express';
 import { mensajesMonDB } from './mensajes.js';
 import { loggerError, logger } from './server.js';
-import ProductosDaoMongoDB from './src/DAOs/productosDaoMongoDB'
+import ProductosDaoMongoDB from './src/DAOs/productosDaoMongoDB.js'
 
 const productos = express.Router();
 
