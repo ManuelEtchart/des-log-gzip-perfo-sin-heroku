@@ -1,6 +1,6 @@
 import config from "../utils/config.js";
 import mongoose from "mongoose";
-import { productosMongoDB } from "../../productos.js";
+import { productosMongoDB } from "../controllers/productos.controller.js";
 
 const URL = config.mongoDB.url;
 
