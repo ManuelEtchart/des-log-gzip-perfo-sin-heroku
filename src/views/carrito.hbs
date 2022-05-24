@@ -3,26 +3,25 @@
         <tr>
             <th>id</th>
         </tr>
-    {{#each carritos}}
         <tr>
-            <td>{{this._id}}</td>
+            <td>{{carritos.[0]._id}}</td>
         </tr>
-    {{/each}}
     </table>
     <table>
         <tr>
             <th>Productos Agregados</th>
             <th>Precio</th>
         </tr>
-        {{#each carritos}}
-            {{#each this.productos}}
-                <tr>
-                    <td>{{this.nombre}}</td>
-                    <td>${{this.precio}}</td>
-                </tr>
-            {{/each}}
+        {{#each carritos.[0].productos}}
+            <tr>
+                <td>{{this.nombre}}</td>
+                <td>${{this.precio}}</td>
+            </tr>
         {{/each}}
-    </table>        
+    </table>
+    {{#if carritos.[0].productos}}
+        <button class="boton"><a href=/api/carrito/{{carritos.[0]._id}}/pedir >PEDIR</a></button> 
+    {{/if}}       
 </div>
 {{#if productos.msg}}
         <p class="aviso">No hay productos</p>
@@ -37,26 +36,24 @@
                     <th>Precio</th>
                     <th>Foto</th>
                 </tr>
-            {{#each productos}}
-                <tr>
-                    <td>{{this.nombre}}</td>
-                    <td>{{this.descripcion}}</td>
-                    <td>{{this.stock}}uni</td>
-                    <td>${{this.precio}}</td>
-                    <td><img src={{this.foto}}></td>
-                    <!--<td>
-                        <form action='' method="post">
-                            <input type="submit" value="Agregar a Carrito" class="boton">
-                        </form>
-                    </td>-->
-                </tr>
-            {{/each}}
-                <tr>
-                    <td><button class="boton"><a href="/api/productos/form">Ingresar Productos</a></button></td>
-                    <td><button class="boton"><a href="/api/carrito">Ir a Carritos</a></button></td>
-                    <td><button class="boton"><a href="/api/productos">Ver productos</a></button></td>
-                </tr>
+                {{#each productos}}
+                    <tr>
+                        <td>{{this.nombre}}</td>
+                        <td>{{this.descripcion}}</td>
+                        <td>{{this.stock}}uni</td>
+                        <td>${{this.precio}}</td>
+                        <td><img src={{this.foto}}></td>
+                        <td>
+                            <form action=/api/carrito/{{../carritos.[0]._id}}/productos/{{this._id}} method="post">
+                                <input type="submit" value="Agregar a Carrito" class="boton">
+                            </form>
+                        </td>
+                    </tr>
+                {{/each}}
             </table>       
         </div>
     {{/if}}
 {{/if}}
+<button class="boton"><a href="/api/productos/form">Ingresar Productos</a></button>
+<button class="boton"><a href="/api/carrito">Ir a Carritos</a></button>
+<button class="boton"><a href="/api/productos">Ver productos</a></button>

@@ -2,7 +2,7 @@ import ProductosDaoMongoDB from "../DAOs/productosDaoMongoDB.js";
 import { loggerError } from "../utils/logger.js";
 import { mensajesMonDB } from "./mensajes.controller.js";
 
-export const productosMongoDB = new ProductosDaoMongoDB();
+const productosMongoDB = new ProductosDaoMongoDB();
 
 const administrador = true;
 
@@ -77,4 +77,4 @@ async function productosDELETE(){
     }
 }
 
-export { productosFormGET, productosGET, productosPOST, productosPUT, productosDELETE}
+export { productosFormGET, productosGET, productosPOST, productosPUT, productosDELETE, productosMongoDB}

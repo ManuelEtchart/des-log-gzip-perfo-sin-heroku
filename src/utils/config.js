@@ -1,5 +1,5 @@
 import dotenv from 'dotenv'
-const dotenvConfig = dotenv.config()
+dotenv.config()
 
 const config = {
     mongoDB:{

@@ -4,7 +4,7 @@ import { logger, loggerError } from '../utils/logger.js';
 
 const info = express.Router()
 
-app.get('/', async (req,res)=>{
+info.get('/', async (req,res)=>{
     logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
     try {
         res.render('info', await infoGET(req))

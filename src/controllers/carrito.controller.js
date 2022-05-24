@@ -49,7 +49,7 @@ async function carritoGET(req){
 
 async function carritoProductoPOST(req){
     try {
-        await carritoMemoria.agregarProductoEnCarrito(req.params.id, req.params.id_prod)
+        await carritoMongoDB.agregarProductoEnCarrito(req.params.id, req.params.id_prod)
         return {carritos: await carritoMongoDB.getById(req.params.id), mensajes: await mensajesMonDB.getAll(), productos: await productosMongoDB.getAll()}
     } catch (error) {
         loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`);

@@ -132,7 +132,6 @@ class ContenedorMongoDB {
             const productoBuscadoObj = productoBuscadoArray[0]
 
             if(productoBuscadoObj.nombre === undefined){
-                console.log(productoBuscado)
                 return {error: `Producto ${id_prod} no encontrado`}
             }
 
@@ -162,7 +161,7 @@ class ContenedorMongoDB {
                 return {error: `Objeto ${id_prod} no encontrado`}
             };
             
-            const productoBuscadoArray = await productoMonDB.getById(id_prod);
+            const productoBuscadoArray = await productosMongoDB.getById(id_prod);
             const productoBuscadoObj = productoBuscadoArray[0];
 
             await mongoose.connect(URL)

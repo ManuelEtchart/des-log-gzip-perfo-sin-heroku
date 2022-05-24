@@ -2,7 +2,7 @@ import MensajesDaoMongoDB from "../DAOs/mensajesDaoMongoDB.js";
 import {faker} from '@faker-js/faker';
 import { loggerError } from "../utils/logger.js";
 
-export const mensajesMonDB = new MensajesDaoMongoDB()
+const mensajesMonDB = new MensajesDaoMongoDB()
 
 async function mensajesPOST(req){
     try {
@@ -24,4 +24,4 @@ async function mensajesPOST(req){
     }
 }
 
-export { mensajesPOST };
+export { mensajesPOST, mensajesMonDB };
