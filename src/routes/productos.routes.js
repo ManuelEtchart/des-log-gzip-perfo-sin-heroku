@@ -1,72 +1,20 @@
 import express from 'express';
-import { productosDELETE, productosFormGET, productosGET, productosPOST, productosPUT } from '../controllers/productos.controller.js';
-import { logger, loggerError } from '../utils/logger.js';
+import { controllerProductos } from '../controllers/productos.controller.js';
 
-const productos = express.Router();
+const productos = express.Router()
 
 productos.use(express.json());
 productos.use(express.urlencoded({extended: true}));
 
 
-productos.get('/form', async (req,res)=>{
-    logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
-    try {
-        res.render('productosForm', await productosFormGET(req));
-    } catch (error) {
-        loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`)
-    }
-});
+productos.get('/form', controllerProductos.productosFormGET);
 
-productos.get('/:id?', async (req,res) => {
-    logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
-    try {
-        const resp = await productosGET(req)
-        res.render(resp.view, resp.vars)
-    } catch (error) {
-        loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`)
-    }
-});
+productos.get('/:id?', controllerProductos.productosGET);
 
-productos.post('', async (req,res) => {
-    logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
-    try{
-        const resp = await productosPOST(req)
-        if(resp === '/'){
-            res.redirect(resp)
-        }else{
-            res.render('error-notif', resp)
-        }
-    }catch(error){
-        loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`);
-    }
-});
+productos.post('', controllerProductos.productosPOST);
 
-productos.put('/:id', async (req,res) => {
-    logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
-    try {
-        const resp = await productosPUT(req)
-        if (resp.errorMsg) {
-            res.render('error-notif', resp )
-        } else {
-            res.send(resp)
-        }
-    } catch (error) {
-        loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`)
-    }
-})
+productos.put('/:id', controllerProductos.productosPUT)
 
-productos.delete('/:id', async (req,res) => {
-    logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
-    try {
-        const resp = await productosDELETE(req)
-        if (resp.errorMsg) {
-            res.render('error-notif', resp )
-        } else {
-            res.send(resp)
-        }
-    } catch (error) {
-        loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`)
-    }
-})
+productos.delete('/:id', controllerProductos.productosDELETE)
 
 export default productos

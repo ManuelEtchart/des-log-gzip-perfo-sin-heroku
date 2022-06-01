@@ -2,14 +2,14 @@ import config from "../utils/config.js";
 import mongoose from "mongoose";
 import { productosMongoDB } from "../controllers/productos.controller.js";
 
-const URL = config.mongoDB.url;
+const URL = config.mongoDB.url; 
 
 await mongoose.connect(URL);
 
 
 class ContenedorMongoDB {
-    constructor(nombreColeccion, esquema){
-        this.coleccion = mongoose.model(nombreColeccion, esquema)
+    constructor(model){
+        this.coleccion = model
     }
 
     async save(obj){

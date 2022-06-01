@@ -1,12 +1,10 @@
 import ContenedorMongoDB from "../contenedores/contenedorMongoDB.js";
+import carritosModel from "../models/carritos.model.js";
 
 class CarritoDaoMongoDB extends ContenedorMongoDB{
     constructor(){
-        super('carritos',{
-            timestamp: {type: Date, require: true, default: Date.now()},
-            productos: {type: Array, require: true}
-        })
+        super(carritosModel)
     }
 }
 
-export default CarritoDaoMongoDB;
+export default CarritoDaoMongoDB; 

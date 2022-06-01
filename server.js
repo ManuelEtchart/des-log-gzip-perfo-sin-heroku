@@ -51,17 +51,6 @@ app.get('/', (req,res)=>{
     res.redirect('/api/productos')
 });
 
-/*app.get('/api/randoms', (req,res) => {
-    logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
-    console.log('no bloqueante antes')
-    const randoms = fork('./random.js')
-    randoms.send({query: req.query.cant})
-    randoms.on('message', randoms =>{
-       res.render('random', {random: JSON.stringify(randoms)})
-    })
-    console.log('no bloqueante despues')
-})
-*/
 app.get('*', (req,res) => {
     res.send({error: '-2', descripcion: `ruta ${req.url} metodo ${req.method} no implementada`});
     logger.warn({error: '-2', descripcion: `ruta ${req.url} metodo ${req.method} no implementada`})
