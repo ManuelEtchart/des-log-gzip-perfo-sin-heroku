@@ -1,8 +1,24 @@
-import MensajesDaoMongoDB from "../DAOs/mensajesDaoMongoDB.js";
+import minimist from 'minimist';
 import {faker} from '@faker-js/faker';
 import { loggerError, logger } from "../utils/logger.js";
+import MensajesDaoMongoDB from '../DAOs/mensajesDaoMongoDB.js';
+import ContenedorMemoria from '../DAOs/DAOMemoria.js';
 
-const mensajesMonDB = new MensajesDaoMongoDB()
+let options = {alias: {p: 'persistencia'}}
+let args = minimist(process.argv, options)
+
+let mensajes = null;
+
+switch (args.persistencia) {
+    case 'mongoDB':
+        mensajes = new MensajesDaoMongoDB()
+        break;
+    case 'memoria':
+        mensajes = new ContenedorMemoria()
+        break
+    default:
+        break;
+}
 
 const controllerMensajes = {
     mensajesPOST: async (req,res) =>{
@@ -19,7 +35,7 @@ const controllerMensajes = {
             let fechaActual = new Date();
             mensaje.fecha = `[(${fechaActual.getDay()}/${fechaActual.getMonth()}/${fechaActual.getFullYear()} ${fechaActual.getHours()}:${fechaActual.getMinutes()}:${fechaActual.getSeconds()})]`;
             mensaje.avatar = faker.image.avatar();
-            await mensajesMonDB.save(mensaje)
+            await mensajes.save(mensaje)
             res.redirect(req.headers.referer)
         } catch (error) {
             loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`)
@@ -27,4 +43,4 @@ const controllerMensajes = {
     }
 }
 
-export { controllerMensajes, mensajesMonDB };
+export { controllerMensajes };

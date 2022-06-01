@@ -1,6 +1,24 @@
 import { loggerError, logger } from "../utils/logger.js";
-import { mensajesMonDB } from "./mensajes.controller.js";
+import minimist from "minimist";
 import { cpus } from 'os';
+import ContenedorMemoria from "../DAOs/DAOMemoria.js";
+import MensajesDaoMongoDB from "../DAOs/mensajesDaoMongoDB.js";
+
+let options = {alias: {p: 'persistencia'}}
+let args = minimist(process.argv, options)
+
+let mensajes = null;
+
+switch (args.persistencia) {
+    case 'mongoDB':
+        mensajes = new MensajesDaoMongoDB()
+        break;
+    case 'memoria':
+        mensajes = new ContenedorMemoria()
+        break
+    default:
+        break;
+}
 
 const controllerInfo = {
     infoGET: async (req,res)=>{
@@ -17,7 +35,7 @@ const controllerInfo = {
                     procId: process.pid,
                     carProy: process.cwd()
                 },
-                mensajes: await mensajesMonDB.getAll()
+                mensajes: await mensajes.getAll()
             })
         } catch (error) {
             loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`)

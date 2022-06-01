@@ -1,26 +1,24 @@
-import config from "../utils/config.js";
-import mongoose from "mongoose";
-import { productosMongoDB } from "../controllers/productos.controller.js";
+import MongoDBClient from "../classes/MongoDBClient.class.js";
+import DAO from "../DAOs/DAO.class.js";
+import ProductosDaoMongoDB from "../DAOs/productosDaoMongoDB.js";
+const productos = new ProductosDaoMongoDB()
 
-const URL = config.mongoDB.url; 
-
-await mongoose.connect(URL);
-
-
-class ContenedorMongoDB {
+class ContenedorMongoDB extends DAO{
     constructor(model){
-        this.coleccion = model
+        super();
+        this.coleccion = model;
+        this.conn = new MongoDBClient();
     }
 
     async save(obj){
         try {
-            await mongoose.connect(URL)
+            await this.conn.connect()
             await this.coleccion.insertMany([obj])
             return {'Objeto agregado': obj}
         } catch(error){
             console.log(error, "Hubo un error");
         }finally{
-            mongoose.disconnect().catch((error)=>{
+            this.conn.disconnect().catch((error)=>{
                 console.log(error, "Hubo un error");
             });
         }
@@ -28,8 +26,8 @@ class ContenedorMongoDB {
 
     async getById(id){
         try {
-            await mongoose.connect(URL)
-            if(!mongoose.isObjectIdOrHexString(id)) {
+            await this.conn.connect()
+            if(!this.conn.client.isObjectIdOrHexString(id)) {
                 return {error: `Objeto ${id} no encontrado`}
             }
             const docs = await this.coleccion.find({"_id": id}).lean()
@@ -41,7 +39,7 @@ class ContenedorMongoDB {
         } catch(error){
             console.log(error, "Hubo un error");
         }finally{
-            mongoose.disconnect().catch((error)=>{
+            this.conn.disconnect().catch((error)=>{
                 console.log(error, "Hubo un error");
             });
         }
@@ -49,7 +47,7 @@ class ContenedorMongoDB {
 
     async getAll(){
         try {
-            await mongoose.connect(URL)
+            await this.conn.connect()
             const docs = await this.coleccion.find({}).lean()
             if(docs.length === 0){
                 return {'msg': 'No hay objetos agregados'}
@@ -60,7 +58,7 @@ class ContenedorMongoDB {
             console.log(error, "Hubo un error");
         }
         finally{
-            mongoose.disconnect().catch((error)=>{
+            this.conn.disconnect().catch((error)=>{
                 console.log(error, "Hubo un error");
             });
         }
@@ -68,8 +66,8 @@ class ContenedorMongoDB {
 
     async updateById(id, cambios){
         try {
-            await mongoose.connect(URL)
-            if(!mongoose.isObjectIdOrHexString(id)) {
+            await this.conn.connect()
+            if(!this.conn.client.isObjectIdOrHexString(id)) {
                 return {error: `Objeto ${id} no encontrado`}
             }
             await this.coleccion.updateOne({_id : id},{$set: cambios})
@@ -78,7 +76,7 @@ class ContenedorMongoDB {
             console.log(error, "Hubo un error");
         }
         finally{
-            mongoose.disconnect().catch((error)=>{
+            this.conn.disconnect().catch((error)=>{
                 console.log(error, "Hubo un error");
             });
         }
@@ -86,8 +84,8 @@ class ContenedorMongoDB {
 
     async deleteById(id){
         try {
-            await mongoose.connect(URL)
-            if(!mongoose.isObjectIdOrHexString(id)) {
+            await this.conn.connect()
+            if(!this.conn.client.isObjectIdOrHexString(id)) {
                 return {error: `Objeto ${id} no encontrado`}
             }
             await this.coleccion.deleteOne({_id : id})
@@ -96,7 +94,7 @@ class ContenedorMongoDB {
             console.log(error, "Hubo un error");
         }
         finally{
-            mongoose.disconnect().catch((error)=>{
+            this.conn.disconnect().catch((error)=>{
                 console.log(error, "Hubo un error");
             });
         }
@@ -104,14 +102,14 @@ class ContenedorMongoDB {
 
     async deleteAll(){
         try {
-            await mongoose.connect(URL)
+            await this.conn.connect()
             await this.coleccion.deleteMany({})
             return {'msg': 'Todos los objetos han sido eliminados'}
         } catch (error) {
             console.log(error, "Hubo un error");
         }
         finally{
-            mongoose.disconnect().catch((error)=>{
+            this.conn.disconnect().catch((error)=>{
                 console.log(error, "Hubo un error");
             });
         }
@@ -119,23 +117,23 @@ class ContenedorMongoDB {
 
     async agregarProductoEnCarrito(id, id_prod){
         try {
-            await mongoose.connect(URL);
+            await this.conn.connect();
 
-            if(!mongoose.isObjectIdOrHexString(id)) {
+            if(!this.conn.client.isObjectIdOrHexString(id)) {
                 return {error: `Objeto ${id} no encontrado`}
             };
-            if(!mongoose.isObjectIdOrHexString(id_prod)) {
+            if(!this.conn.client.isObjectIdOrHexString(id_prod)) {
                 return {error: `Objeto ${id_prod} no encontrado`}
             };
-
-            const productoBuscadoArray = await productosMongoDB.getById(id_prod)
+            
+            const productoBuscadoArray = await productos.getById(id_prod)
             const productoBuscadoObj = productoBuscadoArray[0]
 
             if(productoBuscadoObj.nombre === undefined){
                 return {error: `Producto ${id_prod} no encontrado`}
             }
 
-            await mongoose.connect(URL)
+            await this.conn.connect()
             await this.coleccion.updateOne({_id: id},{$push:{productos: productoBuscadoObj}})
             
             return  {msg: `Producto ${id_prod} agregado`}
@@ -143,7 +141,7 @@ class ContenedorMongoDB {
             console.log(error, "Hubo un error");
         }
         finally{
-            mongoose.disconnect().catch((error)=>{
+            this.conn.disconnect().catch((error)=>{
                 console.log(error, "Hubo un error");
             });
         }
@@ -152,26 +150,26 @@ class ContenedorMongoDB {
 
     async borrarProductoEnCarrito(id, id_prod){
         try {
-            await mongoose.connect(URL);
+            await this.conn.connect();
 
-            if(!mongoose.isObjectIdOrHexString(id)) {
+            if(!this.conn.client.isObjectIdOrHexString(id)) {
                 return {error: `Objeto ${id} no encontrado`}
             };
-            if(!mongoose.isObjectIdOrHexString(id_prod)) {
+            if(!this.conn.client.isObjectIdOrHexString(id_prod)) {
                 return {error: `Objeto ${id_prod} no encontrado`}
             };
             
-            const productoBuscadoArray = await productosMongoDB.getById(id_prod);
+            const productoBuscadoArray = await productos.getById(id_prod);
             const productoBuscadoObj = productoBuscadoArray[0];
 
-            await mongoose.connect(URL)
+            await this.conn.connect()
             await this.coleccion.updateOne({_id: id},{$pull:{productos: productoBuscadoObj}})
             
             return {msg: `Producto ${id_prod} eliminado`}
         } catch (error) {
             console.log(error, "Hubo un error");
         }finally{
-            mongoose.disconnect().catch((error)=>{
+            this.conn.disconnect().catch((error)=>{
                 console.log(error, "Hubo un error");
             });
         }

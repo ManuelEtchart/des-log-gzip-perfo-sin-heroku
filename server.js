@@ -1,5 +1,4 @@
 import express from 'express';
-import minimist from 'minimist';
 import compression from 'compression';
 import path from 'path';
 import hbs from 'express-handlebars';
@@ -38,9 +37,6 @@ app.use(session({
    }
 }));
 
-let options = {alias: {p: 'puerto'}};
-let args = minimist(process.argv, options);
-
 app.use('/api/carrito', carrito);
 app.use('/api/productos', productos);
 app.use('/api/mensajes', mensajes);
@@ -68,7 +64,7 @@ app.put('*', (req,res) => {
     logger.warn({error: '-2', descripcion: `ruta ${req.url} metodo ${req.method} no implementada`})
 });
 
-const PORT = args.puerto || 8080;
+const PORT = 8080;
 
 const server = app.listen(PORT, () => {
    logger.info(`Servidor escuchando en el puerto ${server.address().port}`);
