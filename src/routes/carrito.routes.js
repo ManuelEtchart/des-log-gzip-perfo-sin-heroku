@@ -1,24 +1,34 @@
 import express from 'express';
-import controllerCarrito from '../controllers/carrito.controller.js';
+import ControllerCarrito from '../controllers/carrito.controller.js';
 
 
-const carrito = express.Router()
+const carrito = express.Router();
 
 carrito.use(express.json());
 carrito.use(express.urlencoded({extended: true}));
 
-carrito.get('', controllerCarrito.carritosGET)
+class CarritoRouter{
+    constructor(){
+        this.controller = new ControllerCarrito()
+    }
 
-carrito.post('', controllerCarrito.carritoPOST)
+    start(){
+        carrito.get('', this.controller.carritosGET)
 
-carrito.delete('/:id', controllerCarrito.carritoDELETE);
+        carrito.post('', this.controller.carritoPOST)
 
-carrito.get('/:id?/productos', controllerCarrito.carritoGET)
+        carrito.delete('/:id', this.controller.carritoDELETE);
 
-carrito.post('/:id/productos/:id_prod', controllerCarrito.carritoProductoPOST)
+        carrito.get('/:id?/productos', this.controller.carritoGET)
 
-carrito.get('/:id/pedir', controllerCarrito.carritoPedirGET)
+        carrito.post('/:id/productos/:id_prod', this.controller.carritoProductoPOST)
 
-carrito.delete('/:id/productos/:id_prod', controllerCarrito.carritoProductoDELETE)
+        carrito.get('/:id/pedir', this.controller.carritoPedirGET)
 
-export default carrito
+        carrito.delete('/:id/productos/:id_prod', this.controller.carritoProductoDELETE)
+
+        return carrito
+    }
+}
+
+export default CarritoRouter;

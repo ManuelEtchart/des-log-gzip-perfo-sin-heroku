@@ -1,20 +1,29 @@
 import express from 'express';
-import { controllerProductos } from '../controllers/productos.controller.js';
+import ControllerProductos  from '../controllers/productos.controller.js';
 
 const productos = express.Router()
 
 productos.use(express.json());
 productos.use(express.urlencoded({extended: true}));
 
+class ProductosRouter {
+    constructor(){
+        this.controller = new ControllerProductos()
+    }
 
-productos.get('/form', controllerProductos.productosFormGET);
+    start(){
+        productos.get('/form', this.controller.productosFormGET);
 
-productos.get('/:id?', controllerProductos.productosGET);
+        productos.get('/:id?', this.controller.productosGET);
 
-productos.post('', controllerProductos.productosPOST);
+        productos.post('', this.controller.productosPOST);
 
-productos.put('/:id', controllerProductos.productosPUT)
+        productos.put('/:id', this.controller.productosPUT)
 
-productos.delete('/:id', controllerProductos.productosDELETE)
+        productos.delete('/:id', this.controller.productosDELETE)
 
-export default productos
+        return productos
+    }
+}
+
+export default ProductosRouter;

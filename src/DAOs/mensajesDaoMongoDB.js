@@ -1,11 +1,11 @@
-import ContenedorMongoDB from "../contenedores/contenedorMongoDB.js";
-import mensajesModel from "../models/mensajes.model.js";
+// import ContenedorMongoDB from "../contenedores/contenedorMongoDB.js";
+// import mensajesModel from "../models/mensajes.model.js";
 
-class MensajesDaoMongoDB extends ContenedorMongoDB{
-    constructor(){
-        super(mensajesModel)
-    }
-}
+// class MensajesDaoMongoDB extends ContenedorMongoDB{
+//     constructor(){
+//         super(mensajesModel)
+//     }
+// }
 
-export default MensajesDaoMongoDB;
+// export default MensajesDaoMongoDB;
 

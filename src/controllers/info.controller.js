@@ -1,27 +1,11 @@
 import { loggerError, logger } from "../utils/logger.js";
-import minimist from "minimist";
 import { cpus } from 'os';
-import ContenedorMemoria from "../DAOs/DAOMemoria.js";
-import MensajesDaoMongoDB from "../DAOs/mensajesDaoMongoDB.js";
+import DAOFactory from "../classes/DAOFactory.class.js";
 
-let options = {alias: {p: 'persistencia'}}
-let args = minimist(process.argv, options)
+const DAO = (new DAOFactory()).get()
 
-let mensajes = null;
-
-switch (args.persistencia) {
-    case 'mongoDB':
-        mensajes = new MensajesDaoMongoDB()
-        break;
-    case 'memoria':
-        mensajes = new ContenedorMemoria()
-        break
-    default:
-        break;
-}
-
-const controllerInfo = {
-    infoGET: async (req,res)=>{
+class ControllerInfo {
+    infoGET = async (req,res)=>{
         logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
         try {
             res.render('info', {
@@ -35,7 +19,7 @@ const controllerInfo = {
                     procId: process.pid,
                     carProy: process.cwd()
                 },
-                mensajes: await mensajes.getAll()
+                mensajes: await DAO.mensajes.getAll()
             })
         } catch (error) {
             loggerError.error(`${error} - Hubo un error en ruta ${req.url} metodo ${req.method} implementada`)
@@ -43,7 +27,7 @@ const controllerInfo = {
     }
 }
 
-export default controllerInfo
+export default ControllerInfo;
 
 
     

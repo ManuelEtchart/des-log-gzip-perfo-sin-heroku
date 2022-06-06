@@ -1,6 +1,6 @@
 import DAO from "./DAO.class.js";
 
-class ContenedorMemoria extends DAO{
+class DAOMemoria extends DAO{
     constructor(){
         super();
         this.array = []
@@ -119,4 +119,4 @@ class ContenedorMemoria extends DAO{
     }
 }
 
-export default ContenedorMemoria;
+export default DAOMemoria;

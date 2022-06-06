@@ -1,3 +1,16 @@
 [2022-06-01T20:32:16.822] [ERROR] default - TypeError: Cannot read property 'getAll' of null - Hubo un error en ruta / metodo GET implementada
 [2022-06-01T20:34:23.562] [ERROR] default - TypeError: Cannot read property 'getAll' of null - Hubo un error en ruta / metodo GET implementada
 [2022-06-01T20:36:46.195] [ERROR] default - TypeError: Cannot read property 'getAll' of null - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:38:45.798] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:40:08.575] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:41:26.370] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:41:59.383] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:43:42.975] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:44:35.850] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:46:57.235] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:47:57.333] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:49:55.889] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:53:02.699] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T04:56:55.965] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T05:04:55.521] [ERROR] default - TypeError: Cannot read property 'getAll' of undefined - Hubo un error en ruta / metodo GET implementada
+[2022-06-06T05:13:13.092] [ERROR] default - ReferenceError: carrito is not defined - Hubo un error en ruta /628b10ecc99bb5d8f2d70fd2/productos/628109e599335efc8996322a metodo POST implementada

@@ -1,7 +1,19 @@
 import express from 'express';
-import controllerInfo from '../controllers/info.controller.js';
+import ControllerInfo from '../controllers/info.controller.js';
 const info = express.Router()
 
-info.get('/', controllerInfo.infoGET);
+class InfoRouter{
+    constructor(){
+        this.controller = new ControllerInfo()
+    }
 
-export default info
+    start(){
+        info.get('/', this.controller.infoGET);
+        
+        return info
+    }
+}
+
+
+
+export default InfoRouter;

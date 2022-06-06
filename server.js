@@ -5,10 +5,10 @@ import hbs from 'express-handlebars';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import { logger, loggerError } from './src/utils/logger.js';
-import mensajes from './src/routes/mensajes.routes.js';
-import info from './src/routes/info.routes.js';
-import productos from './src/routes/productos.routes.js';
-import carrito from './src/routes/carrito.routes.js';
+import ProductosRouter from './src/routes/productos.routes.js';
+import MensajesRouter from './src/routes/mensajes.routes.js';
+import InfoRouter from './src/routes/info.routes.js';
+import CarritoRouter from './src/routes/carrito.routes.js';
 
 const app = express();
 
@@ -37,10 +37,10 @@ app.use(session({
    }
 }));
 
-app.use('/api/carrito', carrito);
-app.use('/api/productos', productos);
-app.use('/api/mensajes', mensajes);
-app.use('/api/info', info);
+app.use('/api/carrito', (new CarritoRouter()).start());
+app.use('/api/productos', (new ProductosRouter()).start());
+app.use('/api/mensajes', (new MensajesRouter()).start());
+app.use('/api/info', (new InfoRouter()).start());
 
 app.get('/', (req,res)=>{
     logger.info(`ruta ${req.url} metodo ${req.method} implementada`)
