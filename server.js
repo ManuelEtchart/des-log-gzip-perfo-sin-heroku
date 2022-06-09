@@ -10,7 +10,7 @@ import MensajesRouter from './src/routes/mensajes.routes.js';
 import InfoRouter from './src/routes/info.routes.js';
 import CarritoRouter from './src/routes/carrito.routes.js';
 
-const app = express();
+export const app = express();
 
 app.use(compression());
 //app.use(express.static('public'));

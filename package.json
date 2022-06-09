@@ -23,12 +23,12 @@
     "express-session": "^1.17.2",
     "log4js": "^6.4.6",
     "minimist": "^1.2.6",
-    "mocha": "^10.0.0",
     "mongoose": "^6.3.3",
     "nodemon": "^2.0.16",
     "supertest": "^6.2.3"
   },
   "devDependencies": {
-    "@faker-js/faker": "^6.3.1"
+    "@faker-js/faker": "^6.3.1",
+    "mocha": "^10.0.0"
   }
 }
